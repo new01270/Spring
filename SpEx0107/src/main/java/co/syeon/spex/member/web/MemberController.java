@@ -2,13 +2,14 @@ package co.syeon.spex.member.web;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import co.syeon.spex.member.service.MemberService;
 import co.syeon.spex.member.vo.MemberVO;
@@ -107,19 +108,33 @@ public class MemberController {
 	}
 
 	@RequestMapping("/memberLoginResult.do")
-	public String memberLoginResult(MemberVO vo, Model model) throws SQLException {
+	public String memberLoginResult(MemberVO vo, Model model, HttpSession session) throws SQLException {
 
 		String viewPath = null;
 		boolean check = memberService.memberLoginCheck(vo);
-
+		
+		session.setAttribute("memberid", vo.getMemberid());
+		String memberid = (String) session.getAttribute("memberid");
+		model.addAttribute("memberid", memberid);
+		
 		if (check == true) {
-			viewPath = "member/memberLoginSuccess";
+//			viewPath = "member/memberLoginSeccess";	// .jsp 정상적으로 넘어감
+			viewPath = "redirect:main.do";
 
 		} else {
 			viewPath = "member/memberLoginFail";
 		}
 
 		return viewPath;
+	}
+	
+	@RequestMapping("/memberLogout.do")
+	public String memberLogout(MemberVO vo, Model model, HttpSession session) throws SQLException {
+		
+		model.addAttribute("memberid", session.getAttribute("memberid"));
+		session.invalidate();
+		
+		return "member/memberLogout";
 	}
 
 	@RequestMapping("/memberLoginCheck.do")

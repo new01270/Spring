@@ -17,7 +17,7 @@
 	
 	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
 		<property name="dataSource" ref="dataSource" />
-		<!-- ref를 참고하여 bean에 name="dataSource"라고 주입한다. 이름 같아도 역할 다음. -->
+		<!-- ref를 참조하여 bean에 name="dataSource"라고 주입한다. 이름 같아도 역할 다름 -->
 	</bean>
 
 </beans>

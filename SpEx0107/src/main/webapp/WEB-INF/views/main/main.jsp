@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,8 +18,16 @@
 		<a href="memberInsertForm.do">회원가입하기</a>
 	</h3>
 	<br>
-	<h3>
-		<a href="memberLoginForm.do">로그인하기</a>
-	</h3>
+	<c:if test="${memberid eq null }">
+		<h3>
+			<a href="memberLoginForm.do">로그인하기</a>
+		</h3>
+	</c:if>
+	<c:if test="${memberid ne null }">
+		<h2>${memberid }님 로그인~~~</h2>
+		<h3>
+			<a href="memberLogout.do">로그아웃하기</a>
+		</h3>
+	</c:if>
 </body>
 </html>

@@ -1,16 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>memberLogout.jsp</title>
 </head>
 <body>
 	<div align="center">
-		<h1>로그인 성공</h1>
-		<h1>${memberid }</h1>
-
+		<h2>${memberid } 님 로그아웃~~~</h2>
+		<a href="main.do">메인으로~~</a>
 	</div>
 </body>
 </html>

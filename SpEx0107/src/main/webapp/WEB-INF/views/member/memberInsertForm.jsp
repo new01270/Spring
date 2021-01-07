@@ -41,8 +41,9 @@
 					</tr>
 				</table><br>
 				<input type="submit" value="가 입 하 기">&nbsp;&nbsp;&nbsp;
-				<input type="reset" value="입 력 취 소">				
-			</form>
+				<input type="reset" value="입 력 취 소">
+			</form><br>
+			<button onclick="location.href='main.do'">메 인 으 로</button>
 		</div>
 	</div>
 </body>

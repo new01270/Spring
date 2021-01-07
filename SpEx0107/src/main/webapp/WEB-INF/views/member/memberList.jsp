@@ -22,7 +22,8 @@
 			<br><hr> 
 		</c:forEach><br>
 		<h3>
-			<a href="memberInsertForm.do">회원가입하기</a>
+			<a href="memberInsertForm.do">회원가입하기</a><br><br>
+			<a href="main.do">메인으로~~</a>
 		</h3>
 		
 	</div>
