@@ -1,7 +1,7 @@
 package co.syeon.spex.member.web;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -23,8 +23,7 @@ public class MemberController {
 	@RequestMapping("/memberList.do")
 	public String memberList(Model model) throws SQLException {
 
-		ArrayList<MemberVO> members = new ArrayList<MemberVO>();
-		members = memberService.memberList();
+		List<MemberVO> members = memberService.memberList();
 		model.addAttribute("members", members);
 
 		return "member/memberList";

@@ -1,4 +1,4 @@
-package co.syeon.spex.member.service;
+package co.syeon.spex.member.serviceImpl;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -6,9 +6,12 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+
+import co.syeon.spex.member.service.MemberRowMapper;
+import co.syeon.spex.member.service.MemberService;
 import co.syeon.spex.member.vo.MemberVO;
 
-@Repository("memberDAO")
+//@Repository("memberDAO")  마이바티스 사용시 비활성화
 public class MemberDAO implements MemberService {
 
 	@Autowired

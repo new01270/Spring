@@ -1,50 +1,57 @@
 package co.syeon.spex.member.serviceImpl;
 
-import java.sql.SQLException;
 import java.util.List;
+import java.sql.SQLException;
 
+import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 
 import co.syeon.spex.member.service.MemberService;
 import co.syeon.spex.member.vo.MemberVO;
 
-/** MemberService.java의 구현체 **/
+@Repository("memberDAO")
+public class MemberMybatisDAO implements MemberService {
 
-@Service("memberService")
-public class MemberServiceImpl implements MemberService {
-
-	@Autowired
-	private MemberMybatisDAO dao;
+	@Autowired SqlSessionTemplate sqlSession;
 
 	@Override
 	public List<MemberVO> memberList() throws SQLException {
-		return dao.memberList();
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("MemberDAO.memberList");
 	}
 
 	@Override
 	public MemberVO memberSelect(MemberVO vo) throws SQLException {
-		return dao.memberSelect(vo);
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
 	public int memberInsert(MemberVO vo) throws SQLException {
-		return dao.memberInsert(vo);
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 	@Override
 	public int memberUpdate(MemberVO vo) throws SQLException {
-		return dao.memberUpdate(vo);
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 	@Override
 	public int memberDelete(MemberVO vo) throws SQLException {
-		return dao.memberDelete(vo);
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 	@Override
 	public boolean memberLoginCheck(MemberVO vo) throws SQLException {
-		return dao.memberLoginCheck(vo);
+		// TODO Auto-generated method stub
+		return false;
 	}
-
+		
+	
+	
+	
 }

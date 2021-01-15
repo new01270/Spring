@@ -5,7 +5,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 
-	<!-- Database Connection Pool설정 -->
+	<!-- Database Connection Pool설정 classpath: resources, src/main/resources -->
 	<context:property-placeholder location="classpath:datasource.properties" />
 
 	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">
@@ -19,5 +19,15 @@
 		<property name="dataSource" ref="dataSource" />
 		<!-- ref를 참조하여 bean에 name="dataSource"라고 주입한다. 이름 같아도 역할 다름 -->
 	</bean>
+	
+	 <!-- mybatis 설정  -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+    	<property name="dataSource" ref="dataSource"   />
+    	<property name="mapperLocations" value="classpath:mappers/*.xml"   />
+    </bean>
+    
+    <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+       <constructor-arg index="0" ref="sqlSessionFactory"   />
+    </bean>
 
 </beans>
