@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -21,9 +22,10 @@ public class MemberController {
 	private MemberService memberService; // MemberServiceImpl 객체 자동주입 -> @Service("memberService")와 같은이름
 
 	@RequestMapping("/memberList.do")
-	public String memberList(Model model) throws SQLException {
-
-		List<MemberVO> members = memberService.memberList();
+	public String memberList(Model model, @ModelAttribute("vo") MemberVO vo) throws SQLException {
+		// MemberVO vo  => jap에서 command 객체 받아옴
+		// @ModelAttribute("vo") : model객체에 담을때 변수명지정
+		List<MemberVO> members = memberService.memberList(vo);
 		model.addAttribute("members", members);
 
 		return "member/memberList";
@@ -36,7 +38,7 @@ public class MemberController {
 	}
 
 	// 호출명과 return명 일치시켜주기
-
+	
 	@PostMapping("/memberInsert.do")
 	public String memberInsert(MemberVO vo, Model model) throws SQLException {
 

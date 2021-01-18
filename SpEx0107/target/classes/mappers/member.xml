@@ -1,9 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mabatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="MemberDAO">
-	<select id="memberList" resultType="co.syeon.spex.member.vo.MemberVO">
+<!-- id값은 mapper의 메서드명과 같아야한다. -->
+
+<mapper namespace="co.syeon.spex.member.service.impl.MemberMapper">
+	
+	<select id="memberList"	resultType="MemberVO" parameterType="MemberVO">
 		SELECT * FROM MEMBER
+		<where>
+			<if test="memberid != null and memberid !=''">
+				memberid like '%' || #{memberid} || '%'
+			</if>
+			<if test="membername != null and membername !=''">
+				and membername like '%' || #{membername} || '%'
+			</if>
+			<if test="memberauth != null and memberauth !=''">
+				and memberauth = #{memberauth}
+			</if>
+		</where>
+		order by memberid
 	</select>
 
+	<select id="memberSelect" resultType="MemberVO">
+		SELECT * FROM member WHERE memberid = #{memberid}
+	</select>
+	
+	<insert id="memberInsert" >
+		INSERT INTO member(memberid, password, membername, memberauth) 
+		VALUES(#{memberid}, #{password}, #{membername}, #{memberauth})
+	</insert>
+	
+	<update id="memberUpdate">
+		UPDATE member SET password = #{password}, memberauth = #{memberauth} 
+		WHERE memberid = #{memberid}
+	</update>
+	
+	<delete id="memberDelete">
+		DELETE FROM member 
+		WHERE memberid = #{memberid}
+	</delete>
+	
 </mapper>
