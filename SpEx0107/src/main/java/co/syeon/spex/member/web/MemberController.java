@@ -96,7 +96,7 @@ public class MemberController {
 		if (n != 0) {
 			viewPath = "redirect:memberList.do";
 		} else {
-			viewPath = "member/memberUpdateFail"; // viewResolve -> .jsp �샇異�
+			viewPath = "member/memberUpdateFail"; // viewResolve -> .jsp 호출
 		}
 
 		return viewPath;

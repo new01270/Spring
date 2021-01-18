@@ -12,13 +12,13 @@ import co.syeon.spex.member.service.MemberRowMapper;
 import co.syeon.spex.member.service.MemberService;
 import co.syeon.spex.member.vo.MemberVO;
 
-//@Repository("memberDAO")  마이바티?�� ?��?��?�� 비활?��?��
+//@Repository("memberDAO")  마이바티스사용시 비활성화
 public class MemberDAO implements MemberService {
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
-	// Template _ query, queryForObject, update ?��?��
+	// Template _ query, queryForObject, update
 	
 	@Override
 	public ArrayList<MemberVO> memberList() throws SQLException {
@@ -56,7 +56,7 @@ public class MemberDAO implements MemberService {
 	public int memberDelete(MemberVO vo) throws SQLException {
 
 		String sql = "DELETE FROM member WHERE memberid=?";
-		return jdbcTemplate.update(sql, vo.getMemberid());	// arg�? 몇개?��?���? return구문?�� 바로 ?��?���??��.
+		return jdbcTemplate.update(sql, vo.getMemberid());	// arg 수 적으면 바로 적용
 	}
 
 	@Override
@@ -67,7 +67,7 @@ public class MemberDAO implements MemberService {
 		Object[] args = { vo.getMemberid(), vo.getPassword()};
 		int n = jdbcTemplate.queryForObject(sql, args, Integer.class);
 
-		if (n != 0)	// 값이 ?��?���? 로그?�� ?��?�� ?��?��.
+		if (n != 0)
 			check = true;
 
 		return check;

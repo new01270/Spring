@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import co.syeon.spex.member.service.MemberService;
 import co.syeon.spex.member.vo.MemberVO;
 
-/** MemberService.java ����ü **/
+/** MemberService.java 구현체 **/
 
 @Service("memberService")
 public class MemberServiceImpl implements MemberService {
