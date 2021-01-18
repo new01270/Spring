@@ -1,6 +1,7 @@
-package co.syeon.spex.member.serviceImpl;
+package co.syeon.spex.member.service.impl;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,17 +10,17 @@ import org.springframework.stereotype.Service;
 import co.syeon.spex.member.service.MemberService;
 import co.syeon.spex.member.vo.MemberVO;
 
-/** MemberService.java의 구현체 **/
+/** MemberService.java ����ü **/
 
 @Service("memberService")
 public class MemberServiceImpl implements MemberService {
 
 	@Autowired
-	private MemberMybatisDAO dao;
+	private MemberMapper dao;
 
 	@Override
-	public List<MemberVO> memberList() throws SQLException {
-		return dao.memberList();
+	public List<MemberVO> memberList(MemberVO vo) throws SQLException {
+		return dao.memberList(vo);
 	}
 
 	@Override
@@ -44,7 +45,18 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public boolean memberLoginCheck(MemberVO vo) throws SQLException {
-		return dao.memberLoginCheck(vo);
+		MemberVO resultVO = dao.memberSelect(vo);
+		if (vo != null && vo.getPassword().equals(resultVO.getPassword())) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	@Override
+	public ArrayList<MemberVO> memberList() throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

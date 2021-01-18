@@ -1,5 +1,6 @@
-package co.syeon.spex.member.serviceImpl;
+package co.syeon.spex.member.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.sql.SQLException;
 
@@ -10,13 +11,13 @@ import org.springframework.stereotype.Repository;
 import co.syeon.spex.member.service.MemberService;
 import co.syeon.spex.member.vo.MemberVO;
 
-@Repository("memberDAO")
+//@Repository("memberDAO")
 public class MemberMybatisDAO implements MemberService {
 
 	@Autowired SqlSessionTemplate sqlSession;
 
 	@Override
-	public List<MemberVO> memberList() throws SQLException {
+	public List<MemberVO> memberList(MemberVO vo) throws SQLException {
 		// TODO Auto-generated method stub
 		return sqlSession.selectList("MemberDAO.memberList");
 	}
@@ -50,7 +51,14 @@ public class MemberMybatisDAO implements MemberService {
 		// TODO Auto-generated method stub
 		return false;
 	}
-		
+
+	@Override
+	public ArrayList<MemberVO> memberList() throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
 	
 	
 	

@@ -1,5 +1,24 @@
 package co.syeon.spex.member.vo;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+@Data
+/*
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
+*/
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class MemberVO {
 	
 	private String memberid;
@@ -7,37 +26,5 @@ public class MemberVO {
 	private String password;
 	private String memberauth;
 	private int memberpoint;
-	
-	public String getMemberid() {
-		return memberid;
-	}
-	public void setMemberid(String memberid) {
-		this.memberid = memberid;
-	}
-	public String getMembername() {
-		return membername;
-	}
-	public void setMembername(String membername) {
-		this.membername = membername;
-	}
-	public String getPassword() {
-		return password;
-	}
-	public void setPassword(String password) {
-		this.password = password;
-	}
-	public String getMemberauth() {
-		return memberauth;
-	}
-	public void setMemberauth(String memberauth) {
-		this.memberauth = memberauth;
-	}
-	public int getMemberpoint() {
-		return memberpoint;
-	}
-	public void setMemberpoint(int memberpoint) {
-		this.memberpoint = memberpoint;
-	}
-	
 	
 }

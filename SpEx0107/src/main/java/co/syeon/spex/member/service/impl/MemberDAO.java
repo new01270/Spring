@@ -1,7 +1,8 @@
-package co.syeon.spex.member.serviceImpl;
+package co.syeon.spex.member.service.impl;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -11,13 +12,13 @@ import co.syeon.spex.member.service.MemberRowMapper;
 import co.syeon.spex.member.service.MemberService;
 import co.syeon.spex.member.vo.MemberVO;
 
-//@Repository("memberDAO")  마이바티스 사용시 비활성화
+//@Repository("memberDAO")  마이바티?�� ?��?��?�� 비활?��?��
 public class MemberDAO implements MemberService {
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
-	// Template _ query, queryForObject, update 사용
+	// Template _ query, queryForObject, update ?��?��
 	
 	@Override
 	public ArrayList<MemberVO> memberList() throws SQLException {
@@ -55,7 +56,7 @@ public class MemberDAO implements MemberService {
 	public int memberDelete(MemberVO vo) throws SQLException {
 
 		String sql = "DELETE FROM member WHERE memberid=?";
-		return jdbcTemplate.update(sql, vo.getMemberid());	// arg가 몇개없으면 return구문에 바로 작성가능.
+		return jdbcTemplate.update(sql, vo.getMemberid());	// arg�? 몇개?��?���? return구문?�� 바로 ?��?���??��.
 	}
 
 	@Override
@@ -66,9 +67,15 @@ public class MemberDAO implements MemberService {
 		Object[] args = { vo.getMemberid(), vo.getPassword()};
 		int n = jdbcTemplate.queryForObject(sql, args, Integer.class);
 
-		if (n != 0)	// 값이 있으면 로그인 할수 있다.
+		if (n != 0)	// 값이 ?��?���? 로그?�� ?��?�� ?��?��.
 			check = true;
 
 		return check;
+	}
+
+	@Override
+	public List<MemberVO> memberList(MemberVO vo) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
