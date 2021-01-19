@@ -1,5 +1,7 @@
 package co.syeon.spex.member.vo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,8 +25,8 @@ public class MemberVO {
 	
 	private String memberid;
 	private String membername;
-	private String password;
+	@JsonIgnore private String password;
 	private String memberauth;
 	private int memberpoint;
-	
+		
 }

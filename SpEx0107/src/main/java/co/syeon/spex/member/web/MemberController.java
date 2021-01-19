@@ -11,8 +11,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import co.syeon.spex.member.service.MemberService;
+import co.syeon.spex.member.service.impl.MemberMapper;
 import co.syeon.spex.member.vo.MemberVO;
 
 @Controller
@@ -21,9 +23,26 @@ public class MemberController {
 	@Autowired
 	private MemberService memberService; // MemberServiceImpl 객체 자동주입 -> @Service("memberService")와 같은이름
 
+	@Autowired
+	MemberMapper dao;
+
+	@RequestMapping("/ajax/memberList.do")
+	@ResponseBody
+	/*
+	 * 클라이언트에서 서버로 필요한 데이터를 전송하기 위해서 JSON이라는 데이터를 요청 본문에 담아서 서버로 보내면,
+	 * 서버에서는 @RequestBody 어노테이션을 사용하여 HTTP 요청 본문에 담긴 값들을 자바 객체로 변환 시켜, 객체에 저장시킵니다.
+	 * 
+	 * 서버에서 클라이언트로 응답 데이터를 전송하기 위해서 @ResponseBody 를 사용하여 자바 객체를 HTTP 응답 본문의 객체로 변환하여
+	 * 클라이언트로 전송시키는 역할을 합니다.
+	 */
+	public List<MemberVO> ajaxMemberList(MemberVO vo) throws SQLException {
+
+		return memberService.memberList(vo);
+	}
+
 	@RequestMapping("/memberList.do")
 	public String memberList(Model model, @ModelAttribute("vo") MemberVO vo) throws SQLException {
-		// MemberVO vo  => jap에서 command 객체 받아옴
+		// MemberVO vo => jap에서 command 객체 받아옴
 		// @ModelAttribute("vo") : model객체에 담을때 변수명지정
 		List<MemberVO> members = memberService.memberList(vo);
 		model.addAttribute("members", members);
@@ -38,7 +57,7 @@ public class MemberController {
 	}
 
 	// 호출명과 return명 일치시켜주기
-	
+
 	@PostMapping("/memberInsert.do")
 	public String memberInsert(MemberVO vo, Model model) throws SQLException {
 
@@ -113,11 +132,11 @@ public class MemberController {
 
 		String viewPath = null;
 		boolean check = memberService.memberLoginCheck(vo);
-		
+
 		session.setAttribute("memberid", vo.getMemberid());
 		String memberid = (String) session.getAttribute("memberid");
 		model.addAttribute("memberid", memberid);
-		
+
 		if (check == true) {
 //			viewPath = "member/memberLoginSeccess";	// .jsp 정상적으로 넘어감
 			viewPath = "redirect:main.do";
@@ -128,13 +147,13 @@ public class MemberController {
 
 		return viewPath;
 	}
-	
+
 	@RequestMapping("/memberLogout.do")
 	public String memberLogout(MemberVO vo, Model model, HttpSession session) throws SQLException {
-		
+
 		model.addAttribute("memberid", session.getAttribute("memberid"));
 		session.invalidate();
-		
+
 		return "member/memberLogout";
 	}
 
