@@ -39,7 +39,7 @@
 	</insert>
 	
 	<update id="memberUpdate">
-		UPDATE member SET password = #{password}, memberauth = #{memberauth} 
+		UPDATE member SET password = #{password}, memberauth = #{memberauth}, memberpoint = #{memberpoint}
 		WHERE memberid = #{memberid}
 	</update>
 	
