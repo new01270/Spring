@@ -16,6 +16,8 @@
 	<!-- Alias 설정 -->
 	<typeAliases>
 		<typeAlias alias="MemberVO"	type="co.syeon.spex.member.vo.MemberVO" />
-		<package name="co.syeon.spex.vo" />
+		<typeAlias alias="user"	type="co.syeon.spex.users.vo.UserVO" />
+		<package name="co.syeon.spex.**.vo" />
 	</typeAliases>
+	
 </configuration>
