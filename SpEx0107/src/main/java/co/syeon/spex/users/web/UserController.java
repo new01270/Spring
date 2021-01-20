@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import co.syeon.spex.main.common.Paging;
 import co.syeon.spex.users.service.UserService;
 import co.syeon.spex.users.vo.UserVO;
 
@@ -21,7 +22,8 @@ public class UserController {
 
 	@Autowired
 	UserService userService;
-
+	
+	
 	// 등록 post
 	@RequestMapping(value = "/users.do", method = RequestMethod.POST)
 	@ResponseBody

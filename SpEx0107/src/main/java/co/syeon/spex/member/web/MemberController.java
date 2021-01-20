@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import co.syeon.spex.main.common.Paging;
 import co.syeon.spex.member.service.MemberService;
 import co.syeon.spex.member.service.impl.MemberMapper;
 import co.syeon.spex.member.vo.MemberVO;
@@ -41,7 +42,23 @@ public class MemberController {
 	}
 
 	@RequestMapping("/memberList.do")
-	public String memberList(Model model, @ModelAttribute("vo") MemberVO vo) throws SQLException {
+	public String memberList(Model model, @ModelAttribute("vo") MemberVO vo, Paging paging) throws SQLException {
+		// 페이징처리
+		paging.setPageUnit(2);
+		paging.setPageSize(3);
+		// 페이지번호 파라미터
+		if (paging.getPage() == null) {
+			paging.setPage(1);
+		}
+		// 시작/마지막 레코드 번호
+		vo.setStart(paging.getFirst());
+		vo.setEnd(paging.getLast());
+		// 전체 건수
+		paging.setTotalRecord(100);	// 전체 레코드 건수 임의
+
+		model.addAttribute("paging", paging);	//memberList에 my:paging
+
+		// 데이터 조회
 		// MemberVO vo => jap에서 command 객체 받아옴
 		// @ModelAttribute("vo") : model객체에 담을때 변수명지정
 		List<MemberVO> members = memberService.memberList(vo);
