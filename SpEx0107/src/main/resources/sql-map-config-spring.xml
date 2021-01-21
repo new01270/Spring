@@ -10,14 +10,17 @@
 		<setting name="useGeneratedKeys" value="false" />
 		<setting name="defaultExecutorType" value="SIMPLE" />
 		<setting name="defaultStatementTimeout" value="25000" />
-		<!-- 오라클 컬럼이 first_name 를 VO firstName 처럼 카멜케이스로 변환 -->
+		<!-- 오라클 컬럼이 first_name 를 VO firstName 처럼 카멜케이스로 변환 true -->
 		<setting name="mapUnderscoreToCamelCase" value="false" />
 	</settings>
 	<!-- Alias 설정 -->
 	<typeAliases>
 		<typeAlias alias="MemberVO"	type="co.syeon.spex.member.vo.MemberVO" />
-		<typeAlias alias="user"	type="co.syeon.spex.users.vo.UserVO" />
+		<typeAlias alias="user" type="co.syeon.spex.users.vo.UserVO" />
+		<typeAlias alias="DeptVO" type="co.syeon.spex.emp.vo.DeptVO" />
+		<typeAlias alias="JobVO" type="co.syeon.spex.emp.vo.JobVO" />
+		<typeAlias alias="EmpVO" type="co.syeon.spex.emp.vo.EmpVO" />
 		<package name="co.syeon.spex.**.vo" />
 	</typeAliases>
-	
+
 </configuration>

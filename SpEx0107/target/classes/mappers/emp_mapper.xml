@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mabatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- id값은 mapper의 메서드명과 같아야한다. -->
+
+<mapper namespace="co.syeon.spex.emp.service.impl.EmpMapper">
+
+	<!-- 사원등록 -->
+
+
+	<!-- 사원수정 -->
+
+
+	<!-- 사원전체조회 -->
+
+
+	<!-- 사원단건조회 -->
+	<select id="getEmp" resultType="EmpVO">
+		SELECT * FROM hr.employees
+		WHERE employee_id = #{employee_id}
+	</select>
+
+	<!-- 부서 전체조회 -->
+	<select id="getDept" resultType="DeptVO">
+		SELECT department_id,
+		department_name
+		FROM hr.departments
+		ORDER BY department_name
+
+	</select>
+
+	<!-- job 전체조회 -->
+	<select id="getJob" resultType="JobVO">
+		SELECT job_id, job_title
+		FROM hr.jobs
+		ORDER BY job_title
+	</select>
+
+</mapper>
