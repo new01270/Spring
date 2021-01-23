@@ -3,17 +3,21 @@
 
 <!-- id값은 mapper의 메서드명과 같아야한다. -->
 
-<mapper namespace="co.syeon.spex.member.service.impl.MemberMapper">
-	
-	<insert id="deptIns" statementType="CALLABLE" parameterType="co.syeon.spex.member.vo.DeptVO">
-		{ call HR.Dept_Ins( 
-		#{departmentName}, 
-		#{departmentId, mode=OUT, jdbcType=NUMERIC, javaType=java.lang.Integer}, 
+<mapper
+	namespace="co.syeon.spex.member.service.impl.MemberMapper">
+
+	<insert id="deptIns" statementType="CALLABLE"
+		parameterType="co.syeon.spex.member.vo.DeptVO">
+		{ call HR.Dept_Ins(
+		#{departmentName},
+		#{departmentId, mode=OUT, jdbcType=NUMERIC, javaType=java.lang.Integer},
 		#{outMsg, mode=OUT, jdbcType=VARCHAR, javaType=string} )
 		}
-	</insert>	
-	
-	<select id="memberList"	resultType="MemberVO" parameterType="MemberVO">
+	</insert>
+
+	<select id="memberList" resultType="MemberVO"
+		parameterType="MemberVO">
+		SELECT a.* FROM ( SELECT b.*, ROWNUM rn FROM (
 		SELECT * FROM MEMBER
 		<where>
 			<if test="memberid != null and memberid !=''">
@@ -26,26 +30,30 @@
 				and memberauth = #{memberauth}
 			</if>
 		</where>
-		order by memberid
+		ORDER BY memberid ) b ) a WHERE rn BETWEEN #{start} AND #{end}
 	</select>
 
 	<select id="memberSelect" resultType="MemberVO">
-		SELECT * FROM member WHERE memberid = #{memberid}
+		SELECT * FROM member WHERE
+		memberid = #{memberid}
 	</select>
-	
-	<insert id="memberInsert" >
-		INSERT INTO member(memberid, password, membername, memberauth) 
+
+	<insert id="memberInsert">
+		INSERT INTO member(memberid, password,
+		membername, memberauth)
 		VALUES(#{memberid}, #{password}, #{membername}, #{memberauth})
 	</insert>
-	
+
 	<update id="memberUpdate">
-		UPDATE member SET password = #{password}, memberauth = #{memberauth}, memberpoint = #{memberpoint}
-		WHERE memberid = #{memberid}
+		UPDATE member SET password = #{password}, memberauth
+		= #{memberauth}, memberpoint = #{memberpoint}
+		WHERE memberid =
+		#{memberid}
 	</update>
-	
+
 	<delete id="memberDelete">
-		DELETE FROM member 
+		DELETE FROM member
 		WHERE memberid = #{memberid}
 	</delete>
-	
+
 </mapper>
