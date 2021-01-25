@@ -1,12 +1,23 @@
 package co.syeon.spex.emp.web;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import co.syeon.spex.emp.service.impl.EmpMapper;
 import co.syeon.spex.emp.vo.DeptVO;
@@ -44,14 +55,61 @@ public class EmpController {
 
 		model.addAttribute("empVO", empMapper.getEmp(vo));
 
+		// http://localhost/spex/updEmpForm?employee_id=100
 		return "emp/empForm";
 	}
 
 	// 등록과 수정 같이 처리
 	@RequestMapping("insUpdEmp")
-	public String insUpdEmp() {
+	public String insUpdEmp(EmpVO vo, HttpServletRequest request,
+			@RequestParam(required = false) MultipartFile[] uploadfiles) throws IllegalStateException, IOException {
+		// (required = false) 파일업로드가 필수요소가 아님.
+
+		// resurces의 URL경로.
+		String path = request.getSession().getServletContext().getRealPath("/resources/images");
+		
+		// empMapper.insert(vo);
+		
+		for (MultipartFile uploadfile : uploadfiles) {
+
+			// 첨부파일 처리
+			if (uploadfile != null && uploadfile.getSize() > 0) {
+				
+				// File file = new File("d:/upload", uploadfile.getOriginalFilename());
+				File file = new File(path, uploadfile.getOriginalFilename());
+
+				// Rename
+
+				uploadfile.transferTo(file);
+				vo.setProfile(uploadfile.getOriginalFilename());
+				
+				// file.insert()
+			}
+		}
+		System.out.println("파일명::" + vo);
 
 		return "emp/empForm";
+	}
+
+	// 파일다운로드
+	@RequestMapping("/download/{fileName:.+}")
+	public void downloadPDFResource(HttpServletRequest request, HttpServletResponse response,
+			@PathVariable("fileName") String fileName) {
+
+		String dataDirectory = "d:/upload";
+		// String dataDirectory =
+		// request.getSession().getServletContext().getRealPath("/resources/image/");
+		Path file = Paths.get(dataDirectory, fileName);
+		if (Files.exists(file)) {
+			response.setContentType("application/pdf;charset=UTF-8");
+			response.addHeader("Content-Disposition", "attachment; filename=" + fileName);
+			try {
+				Files.copy(file, response.getOutputStream());
+				response.getOutputStream().flush();
+			} catch (IOException ex) {
+				ex.printStackTrace();
+			}
+		}
 	}
 
 }

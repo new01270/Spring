@@ -32,12 +32,20 @@
 		class="org.springframework.web.servlet.view.UrlBasedViewResolver"
 		p:order="2"
 		p:viewClass="org.springframework.web.servlet.view.tiles3.TilesView" />
-		
+
 	<beans:bean id="tilesConfigurer"
 		class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
 		<beans:property name="definitions">
 			<beans:value>/WEB-INF/tiles.xml</beans:value>
 		</beans:property>
+	</beans:bean>
+
+	<!-- MultipartResolver 설정 -->
+	<beans:bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<beans:property name="maxUploadSize" value="100000000" />
+		<beans:property name="maxInMemorySize" value="100000000" />
+		<beans:property name="maxUploadSizePerFile" value="1000000"></beans:property>
 	</beans:bean>
 
 	<context:component-scan

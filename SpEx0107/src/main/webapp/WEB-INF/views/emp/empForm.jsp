@@ -9,8 +9,11 @@
 </head>
 <body>
 	<h3>사원등록, 사원수정 한 페이지에서 가능</h3>
+	<%--<a href="download/${vo.첨부파일}">다운받기</a> --%>
+	<a href="download/web_xml_version3.1.txt">다운받기</a>
 	<!-- commandName에 첫글자만 소문자로해서 넘어옴, items는 controller에서 메소드명, path에 속성만 정의-->
-	<form:form modelAttribute="empVO">
+	<form:form modelAttribute="empVO"  method="post" encType="multipart/form-data" action="insUpdEmp">
+		<input type="file" name="uploadfile" multiple="multiple"><br>
 		employee_id <form:input path="employee_id" /><br>
 		first_name <form:input path="first_name" /><br>
 		last_name <form:input path="last_name" /><br>
