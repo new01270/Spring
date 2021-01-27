@@ -2,15 +2,18 @@ package co.syeon.spex.emp.web;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.Connection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,15 +31,23 @@ import co.syeon.spex.emp.vo.DeptVO;
 import co.syeon.spex.emp.vo.DeptVo2;
 import co.syeon.spex.emp.vo.EmpVO;
 import co.syeon.spex.emp.vo.JobVO;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
 
 @Controller
 public class EmpController {
 
 	@Autowired
 	EmpMapper empMapper;
-	
+
 	@Autowired
 	DeptService deptService;
+
+	@Autowired
+	DataSource datasource;
 
 	@ModelAttribute("deptList") // 먼저 실행 <form:select items="${ deptList}"../>
 	public List<DeptVO> deptList() {
@@ -124,15 +135,31 @@ public class EmpController {
 	@RequestMapping("/deptExcelView.do")
 	public ModelAndView excelView(DeptVo2 vo, HttpServletResponse response) throws IOException {
 		// http://localhost/spex/deptExcelView.do 들어가면 다운 바로.
-		
+
 		List<Map<String, Object>> list = deptService.selectAll(vo);
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		String[] header = { "departmentId", "departmentName", "managerId" };	// alias 와 같은 컬럼명
+		String[] header = { "departmentId", "departmentName", "managerId" }; // alias 와 같은 컬럼명
 		map.put("headers", header);
 		map.put("filename", "excel_dept");
 		map.put("datas", list);
-		
-		return new ModelAndView("commonExcelView", map);	// map으로만 처리.
+
+		return new ModelAndView("commonExcelView", map); // map으로만 처리.
+	}
+
+	// pdf출력
+	@RequestMapping("report.do")
+	public void report(HttpServletRequest request, HttpServletResponse response,
+			@RequestParam(required = false, defaultValue = "10") int dept) throws Exception {
+
+		Connection conn = datasource.getConnection();
+
+		// 소스 컴파일 jrxml -> jasper
+		InputStream stream = getClass().getResourceAsStream("/reports/empparam.jrxml");
+		JasperReport jasperReport = JasperCompileManager.compileReport(stream); // 파라미터 맵
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("p_department_id", dept);
+		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, map, conn);
+		JasperExportManager.exportReportToPdfStream(jasperPrint, response.getOutputStream());
 	}
 
 }
