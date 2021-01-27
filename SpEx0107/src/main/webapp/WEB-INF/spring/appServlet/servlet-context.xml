@@ -21,28 +21,35 @@
 
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources 
 		in the /WEB-INF/views directory -->
-	<beans:bean
-		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<beans:property name="prefix" value="/WEB-INF/views/" />
 		<beans:property name="suffix" value=".jsp" />
 		<beans:property name="order" value="3"></beans:property>
 	</beans:bean>
 
 	<beans:bean
-		class="org.springframework.web.servlet.view.UrlBasedViewResolver"
-		p:order="2"
-		p:viewClass="org.springframework.web.servlet.view.tiles3.TilesView" />
-		
-	<beans:bean id="tilesConfigurer"
-		class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
+		class="org.springframework.web.servlet.view.UrlBasedViewResolver" 
+		p:order="2" p:viewClass="org.springframework.web.servlet.view.tiles3.TilesView" />
+	<beans:bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
 		<beans:property name="definitions">
 			<beans:value>/WEB-INF/tiles.xml</beans:value>
 		</beans:property>
 	</beans:bean>
 
+	<!-- BeanNameViewResolver 설정 -->
+	<beans:bean p:order="1"
+		class="org.springframework.web.servlet.view.BeanNameViewResolver" />
+
+	<!-- MultipartResolver 설정 -->
+	<beans:bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<beans:property name="maxUploadSize" value="100000000" />
+		<beans:property name="maxInMemorySize" value="100000000" />
+		<beans:property name="maxUploadSizePerFile"	value="1000000"></beans:property>
+	</beans:bean>
+
 	<context:component-scan
 		base-package="co.syeon.spex" />
-
 
 
 </beans:beans>
