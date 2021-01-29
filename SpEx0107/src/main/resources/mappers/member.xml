@@ -15,8 +15,7 @@
 		}
 	</insert>
 
-	<select id="memberList" resultType="MemberVO"
-		parameterType="MemberVO">
+	<select id="memberList" resultType="MemberVO" parameterType="MemberVO">
 		SELECT a.* FROM ( SELECT b.*, ROWNUM rn FROM (
 		SELECT * FROM MEMBER
 		<where>
