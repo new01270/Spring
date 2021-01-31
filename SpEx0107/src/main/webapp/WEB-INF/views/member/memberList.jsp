@@ -35,6 +35,7 @@
 		</c:forEach>
 
 		<my:paging paging="${paging }" jsFunc="goList" />
+		
 		<script type="text/javascript">
 			function goList(p) {
 				location.href = "memberList.do?page=" + p;
