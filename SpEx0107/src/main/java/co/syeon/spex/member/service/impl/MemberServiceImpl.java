@@ -5,6 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import co.syeon.spex.member.service.MemberService;
@@ -13,7 +18,7 @@ import co.syeon.spex.member.vo.MemberVO;
 /** MemberService.java 구현체 **/
 
 @Service("memberService")
-public class MemberServiceImpl implements MemberService {
+public class MemberServiceImpl implements MemberService, UserDetailsService {
 
 	@Autowired
 	private MemberMapper dao;
@@ -51,6 +56,28 @@ public class MemberServiceImpl implements MemberService {
 		} else {
 			return false;
 		}
+	}
+
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
+		// 단건조회 -> username, password, authority
+		MemberVO memberVo = new MemberVO();
+		memberVo.setMemberid(username);
+		MemberVO resultvo = dao.memberSelect(memberVo);
+
+		// 사용자가 존재하지 않는 경우
+		if (resultvo == null) {
+			throw new UsernameNotFoundException("no user");
+		}
+
+		// 권한 지정
+		List<GrantedAuthority> auth = new ArrayList<>();
+		auth.add(new SimpleGrantedAuthority("ROLE_" + resultvo.getMemberauth().toUpperCase()));
+
+		resultvo.setAuthorities(auth);
+
+		return resultvo;
 	}
 
 	@Override
