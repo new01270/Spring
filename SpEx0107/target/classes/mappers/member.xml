@@ -29,7 +29,8 @@
 				and memberauth = #{memberauth}
 			</if>
 		</where>
-		ORDER BY memberid ) b ) a WHERE rn BETWEEN #{start} AND #{end}
+		ORDER BY memberid 
+		) b ) a WHERE rn BETWEEN #{start} AND #{end}
 	</select>
 
 	<select id="memberSelect" resultType="MemberVO">
