@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +18,7 @@ import co.syeon.spex.main.common.Paging;
 import co.syeon.spex.member.service.MemberService;
 import co.syeon.spex.member.service.impl.MemberMapper;
 import co.syeon.spex.member.vo.MemberVO;
+import co.syeon.spex.member.vo.MemberValidation;
 
 @Controller
 public class MemberController {
@@ -68,6 +70,7 @@ public class MemberController {
 		return "member/memberList";
 	}
 
+	
 	@RequestMapping("/memberInsertForm.do")
 	public String memberInsertForm() throws SQLException {
 
@@ -76,9 +79,15 @@ public class MemberController {
 
 	// 호출명과 return명 일치시켜주기
 
+	//@Autowired MemberValidation memberValidation;
 	@PostMapping("/memberInsert.do")
-	public String memberInsert(MemberVO vo, Model model) throws SQLException {
+	public String memberInsert(MemberVO vo, Model model, BindingResult result) throws SQLException {
 
+		//memberValidation.validate(vo, result);
+		if ( result.hasErrors() ) {
+			return "member/memberInsertForm";
+		}
+		
 		String viewPath = null;
 		int n = memberService.memberInsert(vo);
 
