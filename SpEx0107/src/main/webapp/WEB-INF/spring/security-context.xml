@@ -9,24 +9,33 @@
 	<security:http pattern="/resources/**" security="none" />
 
 	<security:http>
-		<security:intercept-url pattern="/top.jsp"
-			access="permitAll()" />
-		<security:intercept-url pattern="/admin/**"
-			access="hasAuthority('ROLE_ADMIN')" />
-		<security:intercept-url pattern="/**"
-			access="isAuthenticated()" />
-		<security:form-login default-target-url="/top.jsp" />
-		<security:logout logout-url="/logout"
-			logout-success-url="/top.jsp" />
+		<security:intercept-url pattern="/login.jsp" access="permitAll()" />
+		<security:intercept-url pattern="/top.jsp" access="permitAll()" />
+		<security:intercept-url pattern="/memberInsert*" access="permitAll()" />
+		<security:intercept-url pattern="/main.do" access="permitAll()" />
+		<security:intercept-url pattern="/" access="permitAll()" />
+		<security:intercept-url pattern="/admin/**" access="hasAuthority('ROLE_ADMIN')" />
+		<security:intercept-url pattern="/**" access="isAuthenticated()" />
+		<security:form-login 
+			login-page="/login.jsp"
+			login-processing-url="/Login.do"
+			default-target-url="/top.jsp"
+			authentication-failure-url="/login.jsp" 
+			username-parameter="memberid"
+			password-parameter="password" />
+		<security:logout logout-url="/logout" logout-success-url="/top.jsp" />
 		<security:csrf disabled="true" />
 	</security:http>
 	<security:authentication-manager>
-		<security:authentication-provider>
+		<security:authentication-provider user-service-ref="memberService">
 
-			<!-- <security:user-service> <security:user name="user" password="1234" 
+			<!-- 
+			<security:user-service> <security:user name="user" password="1234" 
 				authorities="ROLE_USER" /> <security:user name="admin" password="1234" authorities="ROLE_ADMIN" 
-				/> </security:user-service> -->
-
+				/> </security:user-service> 
+			-->
+			
+			<!-- 
 			<security:jdbc-user-service
 				data-source-ref="dataSource"
 				users-by-username-query="select LOGIN_ID, PASSWORD, 1 from T_USER where LOGIN_ID = ?"
@@ -35,7 +44,12 @@
 				on T_ROLE.ID = T_USER_ROLE.ROLE_ID 
 				inner join T_USER on T_USER_ROLE.USER_ID = T_USER.ID
  				where LOGIN_ID = ?" />
-			<security:password-encoder hash="bcrypt" />
+ 			 -->
+ 			 
+			<!-- 
+			<security:password-encoder hash="bcrypt" />  
+			-->
+			
 		</security:authentication-provider>
 	</security:authentication-manager>
 

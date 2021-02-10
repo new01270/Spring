@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,7 +9,7 @@
 <title>main/main.jsp</title>
 </head>
 <body>
-	<h1>여기는 처음으로 오는 페이지</h1>
+	<h1><spring:message code="main.title" /></h1>
 	<br>
 	<h3>
 		<a href="memberList.do">멤버목록보기</a>
